@@ -15,3 +15,5 @@ pygame.init()
 
 # quit
 pygame.quit()
+
+# Isaac feel free to replace all of this with your code when you get access to the repository
