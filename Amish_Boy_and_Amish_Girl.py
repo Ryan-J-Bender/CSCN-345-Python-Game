@@ -1,4 +1,6 @@
 # CSCN 345 (003) Python Game by Isaac Scott and Ryan Bender
+
+import sys
 import pygame
 from pygame.locals import *
  
@@ -10,6 +12,12 @@ WIDTH = 1250
 ACC = 0.5
 FRIC = -0.12
 FPS = 60
+
+bg = pygame.image.load('bgimgFade.png') # Loads background image into bg variable
+
+# boy_sprite_sheet = pygame.image.load('Boy Sprite Sheet.png').convert_alpha()
+
+# girl_sprite_sheet = pygame.image.load('Girl Sprite Sheet.png').convert_alpha()
  
 FramePerSec = pygame.time.Clock()
  
@@ -132,6 +140,7 @@ all_sprites.add(P2)
 
 #while loop for game run
 while True:
+
     P1.move1()
     P2.move2()
     P1.update1()
@@ -141,15 +150,14 @@ while True:
 
         if event.type == QUIT:
             pygame.quit()
-            #sys.exit() idk why this isnt recognized by python
+            sys.exit() #idk why this isnt recognized by python
         if event.type == pygame.KEYDOWN:    
             if event.key == pygame.K_UP:
                 P1.jump1()
             if event.key == pygame.K_w:
                 P2.jump2()
             
-     
-    displaysurface.fill((0,0,0))
+    displaysurface.blit(bg, (0, 0))
  
     for entity in all_sprites:
         displaysurface.blit(entity.surf, entity.rect)
