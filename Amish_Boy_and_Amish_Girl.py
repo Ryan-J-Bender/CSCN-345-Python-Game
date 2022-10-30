@@ -22,8 +22,8 @@ displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Amish Boy and Amish Girl")
 
 # Loads sprite sheet image into variable 
-boy_sprite_sheet_image = pygame.image.load('Boy Sprite Sheet.png').convert_alpha()
-girl_sprite_sheet_image = pygame.image.load('Girl.png').convert_alpha()
+boy_sprite_sheet_image = pygame.image.load('boy_sprite_sheet.png').convert_alpha()
+girl_sprite_sheet_image = pygame.image.load('Girl Sprite Sheet.png').convert_alpha()
 
 # Black color key
 BLACK = (0, 0, 0)
