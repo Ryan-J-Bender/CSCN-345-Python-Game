@@ -19,3 +19,7 @@ def getImageGirl(sheet, frame, width, height, color, scale):
     image.set_colorkey(color)
 
     return image 
+
+def clock():
+    currentTime = pygame.time.get_ticks()
+    return currrentTime

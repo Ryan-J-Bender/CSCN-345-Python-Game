@@ -91,18 +91,28 @@ class Player1(pygame.sprite.Sprite):
  
         pressed_keys = pygame.key.get_pressed()
             
+        nextFrame = spritesheet.clock()
+        frame = 0
+        while True:
+            if clock() > nextFrame:
+                frame = (frame+1) % 8
+                nextFrame += 80
+
+            if pressed_keys[K_LEFT]:
+                
+
         if pressed_keys[K_LEFT]:
             self.acc.x = -ACC
-            self.current_sprite = self.current_sprite + 1
-            if self.current_sprite >= len(self.sprites) - 3:
-              self.current_sprite = self.current_sprite -1
-            elif self.current_sprite <= len(self.sprites) - 5:
-                self.current_sprite = self.current_sprite + 1
-            else:
-              self.current_sprite = 0
+            # # self.current_sprite = self.current_sprite + 1
+            # # if self.current_sprite >= len(self.sprites) - 3:
+            # #   self.current_sprite = self.current_sprite -1
+            # # elif self.current_sprite <= len(self.sprites) - 5:
+            # #     self.current_sprite = self.current_sprite + 1
+            # # else:
+            # #   self.current_sprite = 0
 
-            self.surf = self.sprites[self.current_sprite]
-            self.rect = self.surf.get_rect()
+            # # self.surf = self.sprites[self.current_sprite]
+            # # self.rect = self.surf.get_rect()
 
             #   it = True
             # elif it == True:  
