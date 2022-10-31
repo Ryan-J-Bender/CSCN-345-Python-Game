@@ -269,23 +269,20 @@ class goal(pygame.sprite.Sprite):
 class go(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.surf = pygame.Surface((WIDTH, HEIGHT))
-        self.surf.fill((0,0,0))
-        self.rect = self.surf.get_rect(center = (WIDTH /2, HEIGHT/2))
+        self.surf = lose
+        self.rect = self.surf.get_rect()
         
 class wa(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.surf = pygame.Surface((WIDTH, HEIGHT))
-        self.surf.fill((255,255,255))
-        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT/2))
+        self.surf = wina
+        self.rect = self.surf.get_rect()
         
 class wb(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.surf = pygame.Surface((WIDTH, HEIGHT))
-        self.surf.fill((100,100,100))
-        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT/2))
+        self.surf = winb
+        self.rect = self.surf.get_rect()
         
 def gameover():
     g = go()
