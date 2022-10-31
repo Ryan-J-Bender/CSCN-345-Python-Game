@@ -18,9 +18,10 @@ P1com = False
 P2com = False
 bg = pygame.image.load('bgimgFade.png') # Loads background image into bg variable
 totalcomplete = 0
-# win = pygame.image.load('win.png') # Loads win screen
 
-# lose = pygame.image.load('gameover.png') # Loads losing screen
+wina = pygame.image.load('wina.png') # Loads boy win screen
+winb = pygame.image.load('winb.png') # loads girl win screen
+lose = pygame.image.load('gameover.png') # Loads losing screen
  
 FramePerSec = pygame.time.Clock()
  
@@ -37,6 +38,11 @@ BLACK = (0, 0, 0)
 # Initializes a spritesheet class for each player
 boy_sprite_sheet = spritesheet.SpriteSheet(boy_sprite_sheet_image)
 girl_sprite_sheet = spritesheet.SpriteSheet(girl_sprite_sheet_image)
+
+# Clock
+def clock():
+    currentTime = pygame.time.get_ticks()
+    return currentTime
 
 #class for player
 class Player1(pygame.sprite.Sprite):
@@ -91,15 +97,18 @@ class Player1(pygame.sprite.Sprite):
  
         pressed_keys = pygame.key.get_pressed()
             
-        nextFrame = spritesheet.clock()
+        nextFrame = clock()
         frame = 0
         while True:
             if clock() > nextFrame:
                 frame = (frame+1) % 8
                 nextFrame += 80
 
-            if pressed_keys[K_LEFT]:
-                
+            if pressed_keys[K_RIGHT]:
+                spritesheet.changeSpriteImage(boy_sprite_sheet_image, 0*3+frame)
+            elif pressed_keys[K_LEFT]:
+                spritesheet.changeSpriteImage(boy_sprite_sheet_image, 1*3+frame)
+
 
         if pressed_keys[K_LEFT]:
             self.acc.x = -ACC
