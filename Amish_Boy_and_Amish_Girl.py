@@ -40,9 +40,9 @@ boy_sprite_sheet = spritesheet.SpriteSheet(boy_sprite_sheet_image)
 girl_sprite_sheet = spritesheet.SpriteSheet(girl_sprite_sheet_image)
 
 # Clock
-def clock():
-    currentTime = pygame.time.get_ticks()
-    return currentTime
+# # def clock():
+# #     currentTime = pygame.time.get_ticks()
+# #     return currentTime
 
 #class for player
 class Player1(pygame.sprite.Sprite):
@@ -86,7 +86,7 @@ class Player1(pygame.sprite.Sprite):
                 self.pos.y = hitsf[0].rect.top + 1
         if P1.vel.y < 0:        
             if hitsf:
-                self.vel.y = 15       
+                self.vel.y = 15      
                 
     #movement function
     def move1(self):
@@ -97,17 +97,17 @@ class Player1(pygame.sprite.Sprite):
  
         pressed_keys = pygame.key.get_pressed()
             
-        nextFrame = clock()
-        frame = 0
-        while True:
-            if clock() > nextFrame:
-                frame = (frame+1) % 8
-                nextFrame += 80
+        # # nextFrame = clock()
+        # # frame = 0
+        # # while True:
+        # #     if clock() > nextFrame:
+        # #         frame = (frame+1) % 8
+        # #         nextFrame += 80
 
-            if pressed_keys[K_RIGHT]:
-                spritesheet.changeSpriteImage(boy_sprite_sheet_image, 0*3+frame)
-            elif pressed_keys[K_LEFT]:
-                spritesheet.changeSpriteImage(boy_sprite_sheet_image, 1*3+frame)
+        # #     if pressed_keys[K_RIGHT]:
+        # #         spritesheet.changeSpriteImage(boy_sprite_sheet_image, 0*3+frame)
+        # #     elif pressed_keys[K_LEFT]:
+        # #         spritesheet.changeSpriteImage(boy_sprite_sheet_image, 1*3+frame)
 
 
         if pressed_keys[K_LEFT]:
@@ -272,29 +272,15 @@ class go(pygame.sprite.Sprite):
         self.surf = lose
         self.rect = self.surf.get_rect()
         
-class wa(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.surf = wina
-        self.rect = self.surf.get_rect()
-        
-class wb(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.surf = winb
-        self.rect = self.surf.get_rect()
         
 def gameover():
-    g = go()
-    all_sprites.add(g)  
+    displaysurface.blit(lose, (0,0))
     
-def wina():
-    won = wa()
-    all_sprites.add(won)
+def winboy():
+    displaysurface.blit(wina, (0,0))
     
-def winb():
-    won = wb()
-    all_sprites.add(won)    
+def wingirl():
+    displaysurface.blit(winb, (0,0)) 
         
 #player colision detection        
 def colision(boy, com1, com2):
@@ -303,18 +289,20 @@ def colision(boy, com1, com2):
     hitsgo = pygame.sprite.spritecollide(boy, players2, False)
     if hitsgo:
         gameover()
+
     players1 = pygame.sprite.Group()
     players1.add(P1)
     #Win statment
     #amish boy win
     hitsw1 = pygame.sprite.spritecollide(obj, players1, False)
     if hitsw1:
-        wina()
+        winboy()
       
       #amish girl win  
     hitsw2 = pygame.sprite.spritecollide(obj, players2, False)
     if hitsw2:
-        winb()
+        wingirl()
+
     
     
         
