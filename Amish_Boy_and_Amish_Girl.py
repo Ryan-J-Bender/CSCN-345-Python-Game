@@ -14,7 +14,13 @@ ACC = 0.5
 FRIC = -0.12
 FPS = 120
 
+P1com = False
+P2com = False
 bg = pygame.image.load('bgimgFade.png') # Loads background image into bg variable
+totalcomplete = 0
+# win = pygame.image.load('win.png') # Loads win screen
+
+# lose = pygame.image.load('gameover.png') # Loads losing screen
  
 FramePerSec = pygame.time.Clock()
  
@@ -49,7 +55,7 @@ class Player1(pygame.sprite.Sprite):
         bframe4 = self.sprites.append(spritesheet.getImageBoy(boy_sprite_sheet_image, 4, 49, 67, BLACK, 1))
         bframe5 = self.sprites.append(spritesheet.getImageBoy(boy_sprite_sheet_image, 5, 49, 67, BLACK, 1))
         
-        self.current_sprite = 2
+        self.current_sprite = 0
         self.surf = self.sprites[self.current_sprite]
         self.rect = self.surf.get_rect()
     
@@ -78,17 +84,60 @@ class Player1(pygame.sprite.Sprite):
                 
     #movement function
     def move1(self):
+
+        it = False
+
         self.acc = vec(0,0.5)
  
         pressed_keys = pygame.key.get_pressed()
             
         if pressed_keys[K_LEFT]:
             self.acc.x = -ACC
+            self.current_sprite = self.current_sprite + 1
+            if self.current_sprite >= len(self.sprites) - 3:
+              self.current_sprite = self.current_sprite -1
+            elif self.current_sprite <= len(self.sprites) - 5:
+                self.current_sprite = self.current_sprite + 1
+            else:
+              self.current_sprite = 0
+
+            self.surf = self.sprites[self.current_sprite]
+            self.rect = self.surf.get_rect()
+
+            #   it = True
+            # elif it == True:  
+            #     self.current_sprite = 0
+            #     it = False
+            #     self.surf = self.sprites[self.current_sprite]
+            #     self.rect = self.surf.get_rect()
+            # else:
+            #     self.current_sprite = 0
+
+
         if pressed_keys[K_RIGHT]:        
             self.acc.x = ACC
+            # # self.current_sprite = self.current_sprite + 1
+            # # if self.current_sprite >= len(self.sprites):
+            # #   self.current_sprite = self.current_sprite - 1
+            # # elif self.current_sprite <= len(self.sprites) - 2:
+            # #     self.current_sprite = self.current_sprite + 1
+            # # else: 
+            # #   self.current_sprite = 3
+
+            # # self.surf = self.sprites[self.current_sprite]
+            # # self.rect = self.surf.get_rect()
+            
+            #   it = True
+            # elif it == True:  
+            #     self.current_sprite = 3
+            #     it = False
+            # else:
+            #     self.current_sprite = 3
+
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
+
         if self.pos.x > WIDTH:
             self.pos.x = 0
         if self.pos.x < 0:
@@ -179,7 +228,7 @@ class wall(pygame.sprite.Sprite):
             self.surf = pygame.Surface((sizex + 4, 0))
         else:
             self.surf = pygame.Surface((sizex + 4, sizey - 21))
-        self.surf.fill((0,0,0))
+        self.surf.fill((150,100,0))
         self.rect = self.surf.get_rect(center = (posx, posy))
         
 #class for platforms 
@@ -187,7 +236,7 @@ class platform(pygame.sprite.Sprite):
     def __init__(self, sizex, sizey, posx, posy):
         super().__init__()
         self.surf = pygame.Surface((sizex, sizey))
-        self.surf.fill((255,255,12))
+        self.surf.fill((150,100,0))
         self.rect = self.surf.get_rect(center = (posx, posy))
 
         
@@ -196,41 +245,63 @@ class goal(pygame.sprite.Sprite):
          super().__init__()
          self.surf = pygame.Surface((20, 20))
          self.surf.fill((255,255,12))
-         self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT))
+         self.rect = self.surf.get_rect(center = (100, 50))
  
 class go(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.surf = pygame.Surface((WIDTH, HEIGHT))
         self.surf.fill((0,0,0))
-        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT/2))
+        self.rect = self.surf.get_rect(center = (WIDTH /2, HEIGHT/2))
         
-class w(pygame.sprite.Sprite):
+class wa(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.surf = pygame.Surface((WIDTH, HEIGHT))
         self.surf.fill((255,255,255))
         self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT/2))
         
+class wb(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.surf = pygame.Surface((WIDTH, HEIGHT))
+        self.surf.fill((100,100,100))
+        self.rect = self.surf.get_rect(center = (WIDTH/2, HEIGHT/2))
+        
 def gameover():
     g = go()
     all_sprites.add(g)  
     
-def win():
-    won = w()
-    all_sprites.add(won)  
+def wina():
+    won = wa()
+    all_sprites.add(won)
+    
+def winb():
+    won = wb()
+    all_sprites.add(won)    
         
 #player colision detection        
-def colision(boy, girl):
-    players = pygame.sprite.Group()
-    players.add(P2)
-    hitsgo = pygame.sprite.spritecollide(boy, players, False)
+def colision(boy, com1, com2):
+    players2 = pygame.sprite.Group()
+    players2.add(P2)
+    hitsgo = pygame.sprite.spritecollide(boy, players2, False)
     if hitsgo:
         gameover()
-    players.add(P1)
-    # hitsw = pygame.sprite.spritecollide(obj, players, False)
-    # if hitsw:
-    #    win()
+    players1 = pygame.sprite.Group()
+    players1.add(P1)
+    #Win statment
+    #amish boy win
+    hitsw1 = pygame.sprite.spritecollide(obj, players1, False)
+    if hitsw1:
+        wina()
+      
+      #amish girl win  
+    hitsw2 = pygame.sprite.spritecollide(obj, players2, False)
+    if hitsw2:
+        winb()
+    
+    
+        
     
     
 
@@ -252,10 +323,19 @@ PT7 = platform(50, 50, 35, HEIGHT/4*3)
 WALL7 = wall(50, 50, 35, HEIGHT/4*3)
 PT8 = platform(50, 50, WIDTH - 35, HEIGHT/4*3)
 WALL8 = wall(50, 50, WIDTH - 35, HEIGHT/4*3)
-PT9 = platform(50, HEIGHT/2, 435, HEIGHT/4+40)
-WALL9 = wall(50, HEIGHT/2, 435, HEIGHT/4+40)
-PT10 = platform(50, HEIGHT/2, WIDTH - 435, HEIGHT/4+40)
-WALL10 = wall(50, HEIGHT/2, WIDTH - 435, HEIGHT/4+40)
+PT9 = platform(50, HEIGHT/2, 435, HEIGHT/4+100)
+WALL9 = wall(50, HEIGHT/2, 435, HEIGHT/4+100)
+PT10 = platform(50, HEIGHT/2, WIDTH - 435, HEIGHT/4+100)
+WALL10 = wall(50, HEIGHT/2, WIDTH - 435, HEIGHT/4+100)
+PT11 = platform(50, 50, WIDTH/2-100, HEIGHT/4*3)
+WALL11 = wall(50, 50, WIDTH/2-100, HEIGHT/4*3)
+PT12 = platform(50, 50, WIDTH/2+100, HEIGHT/2)
+WALL12 = wall(50, 50, WIDTH/2+100, HEIGHT/2)
+PT13 = platform(50, 50, WIDTH/2-120, HEIGHT/4)
+WALL13 = wall(50, 50, WIDTH/2-120, HEIGHT/4)
+PT14 = platform(WIDTH/2, 50, WIDTH/4-165, 100)
+WALL14 = wall(WIDTH/2, 50, WIDTH/4-165, 100)
+
 
 
 
@@ -274,8 +354,10 @@ platforms.add(PT7)
 platforms.add(PT8)
 platforms.add(PT9)
 platforms.add(PT10)
-
-
+platforms.add(PT11)
+platforms.add(PT12)
+platforms.add(PT13)
+platforms.add(PT14)
 
 walls = pygame.sprite.Group()
 walls.add(WALL1)
@@ -288,6 +370,10 @@ walls.add(WALL7)
 walls.add(WALL8)
 walls.add(WALL9)
 walls.add(WALL10)
+walls.add(WALL11)
+walls.add(WALL12)
+walls.add(WALL13)
+walls.add(WALL14)
 
 
 all_sprites = pygame.sprite.Group()
@@ -311,15 +397,22 @@ all_sprites.add(PT9)
 all_sprites.add(WALL9)
 all_sprites.add(PT10)
 all_sprites.add(WALL10)
-
-
+all_sprites.add(PT11)
+all_sprites.add(WALL11)
+all_sprites.add(PT12)
+all_sprites.add(WALL12)
+all_sprites.add(PT13)
+all_sprites.add(WALL13)
+all_sprites.add(PT14)
+all_sprites.add(WALL14)
 
 
 all_sprites.add(P1)
 all_sprites.add(P2)
-#all_sprites.add(obj)
+all_sprites.add(obj)
 
 
+completed = False
 #while loop for game run
 while True:
 
@@ -344,6 +437,6 @@ while True:
     for entity in all_sprites:
         displaysurface.blit(entity.surf, entity.rect)
  
-    colision(P1, P2)
+    colision(P1, P1com, P2com)
     pygame.display.update()
     FramePerSec.tick(FPS)
